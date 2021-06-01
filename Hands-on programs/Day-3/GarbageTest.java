@@ -1,4 +1,4 @@
-/*JVM clears the heap memory using garbage clean
+ /*JVM clears the heap memory using garbage clean
  * also be done manually using two methods as follow*/
 
 package com.onebill.corejava.basics;
