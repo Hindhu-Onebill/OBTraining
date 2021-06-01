@@ -1,0 +1,31 @@
+mysql> select * from Employee;
++-------+-------------+-------------+----------+------------+------------+--------+------+------+-------------------+
+| empid | name        | email       | mobile   | dob        | doj        | gender | exp  | dept | designation       |
++-------+-------------+-------------+----------+------------+------------+--------+------+------+-------------------+
+|     1 | Rahul       | h@gmail.com | 2345564  | 1999-12-24 | 2015-11-09 | m      |    7 | A    | Software engineer |
+|     2 | Rohit       | a@gmail.com | 2348764  | 1999-07-24 | 2014-11-09 | m      |    1 | B    | Tester            |
+|     3 | Rajath      | k@gmail.com | 2347774  | 1999-08-24 | 2014-11-09 | m      |    6 | A    | Tester            |
+|     4 | Rakesh      | s@gmail.com | 2344444  | 0000-00-00 | 2019-11-09 | m      |    5 | B    | Software engineer |
+|     5 | Reshma      | B@gmail.com | 2342244  | 1996-08-22 | 0000-00-00 | f      |    4 | C    | Software engineer |
+|     6 | Muthu Kumar | m@gmail.com | 23144344 | 1970-08-22 | 2010-06-09 | m      |   10 | D    | Manager           |
++-------+-------------+-------------+----------+------------+------------+--------+------+------+-------------------+
+6 rows in set (0.00 sec)
+
+mysql> select max(exp) from Employee where exp < (select max(emp) from Employee);
+ERROR 1054 (42S22): Unknown column 'emp' in 'field list'
+mysql> select max(exp) from Employee where exp < (select max(exp) from Employee);
++----------+
+| max(exp) |
++----------+
+|        7 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(exp) from Employee where exp < (select max(exp) from Employee where exp < (select max(exp) from Employee));
++----------+
+| max(exp) |
++----------+
+|        6 |
++----------+
+1 row in set (0.00 sec)
+

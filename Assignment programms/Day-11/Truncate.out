@@ -1,0 +1,52 @@
+mysql> use TestYantra;
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_TestYantra |
++----------------------+
+| Customer             |
+| Employee             |
+| item                 |
+| orders               |
+| person_info          |
+| sales                |
++----------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from person_info;
++----+-------+--------+-----------------+
+| id | name  | salary | email           |
++----+-------+--------+-----------------+
+|  1 | Harry |  25000 | harry@gmail.com |
+|  3 | Liam  |  30000 | liam@gmail.com  |
+|  2 | Niall |  27000 | niall@gmail.com |
++----+-------+--------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> truncate table person_info;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from person_info;
+Empty set (0.00 sec)
+
+mysql> insert into person_info values(1,"Murphy",30000,'murphy@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into person_info values(1,"Olivia",35000,'olivia@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from person_info;
++----+--------+--------+------------------+
+| id | name   | salary | email            |
++----+--------+--------+------------------+
+|  1 | Murphy |  30000 | murphy@gmail.com |
+|  1 | Olivia |  35000 | olivia@gmail.com |
++----+--------+--------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> drop table person_info;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from person_info;
+ERROR 1146 (42S02): Table 'TestYantra.person_info' doesn't exist
+mysql> tee /home/hindhuja/Documents/Files/SQL.out;

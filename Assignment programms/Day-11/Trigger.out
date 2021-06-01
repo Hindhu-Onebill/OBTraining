@@ -1,0 +1,87 @@
+mysql> use TestYantra;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from item;
++--------+----------+----------+-------+-----------+
+| itemid | itemdesc | quantity | price | category  |
++--------+----------+----------+-------+-----------+
+|      1 | perfume  |      100 |   100 | cosmetics |
+|      2 | Marie    |       70 |    10 | snacks    |
++--------+----------+----------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from sales;
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      2 |      10 |    10 |   100 |
+| 103 |      1 |       5 |    50 |   250 |
+| 104 |      1 |       1 |    10 |    10 |
++-----+--------+---------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter $$
+mysql> create trigger t2
+    -> after insert
+    -> on sales
+    -> for each row
+    -> begin
+    -> update item set quantity = quantity - new.qtysold where itemid=new.itemid;
+    -> end $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into sales values(105,1,10,100,0);
+    -> $$
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from sales;
+    -> $$
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      2 |      10 |    10 |   100 |
+| 103 |      1 |       5 |    50 |   250 |
+| 104 |      1 |       1 |    10 |    10 |
+| 105 |      1 |      10 |   100 |  1000 |
++-----+--------+---------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from item;$$
++--------+----------+----------+-------+-----------+
+| itemid | itemdesc | quantity | price | category  |
++--------+----------+----------+-------+-----------+
+|      1 | perfume  |       90 |   100 | cosmetics |
+|      2 | Marie    |       70 |    10 | snacks    |
++--------+----------+----------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into sales values(106,2,5,10,0);
+    -> $$
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from sales;$$
++-----+--------+---------+-------+-------+
+| sid | itemid | qtysold | price | total |
++-----+--------+---------+-------+-------+
+| 101 |      2 |      10 |     0 |     0 |
+| 102 |      2 |      10 |    10 |   100 |
+| 103 |      1 |       5 |    50 |   250 |
+| 104 |      1 |       1 |    10 |    10 |
+| 105 |      1 |      10 |   100 |  1000 |
+| 106 |      2 |       5 |    10 |    50 |
++-----+--------+---------+-------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from item;$$
++--------+----------+----------+-------+-----------+
+| itemid | itemdesc | quantity | price | category  |
++--------+----------+----------+-------+-----------+
+|      1 | perfume  |       90 |   100 | cosmetics |
+|      2 | Marie    |       65 |    10 | snacks    |
++--------+----------+----------+-------+-----------+
+2 rows in set (0.00 sec)
+
